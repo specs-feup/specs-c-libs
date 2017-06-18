@@ -31,3 +31,19 @@ function(add_specs_c_lib library)
 	add_subdirectory(${CURRENT_SPECS_LIB_DIR} ${CMAKE_CURRENT_BINARY_DIR}/${library})
 	
 endfunction()
+
+# Declare macro for adding libraries
+# Using macro instead of function to be able to use 'target_link_libraries'
+macro(add_specs_c_lib target library)
+
+	get_from_map(${library} lib_dir)
+	
+	# Add library as source project
+	set(CURRENT_SPECS_LIB_DIR ${SPECS_C_LIBS}/${lib_dir})
+	add_subdirectory(${CURRENT_SPECS_LIB_DIR} ${CMAKE_CURRENT_BINARY_DIR}/${library})
+	
+	target_link_libraries (${target} ${library})
+	
+	message(STATUS "[specs-c-libs] Added library ${library} to target ${target}")
+endmacro()
+
