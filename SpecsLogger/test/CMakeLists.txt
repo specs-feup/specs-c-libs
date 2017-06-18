@@ -13,8 +13,6 @@ include(${PATH_TO_ROOT}/specs-c-libs.cmake)
 
 set(SOURCE_FILES src/main.cpp)
 
-add_specs_c_lib(specs_logger)
-
 add_executable(specs_logger_test ${SOURCE_FILES})
 
-target_link_libraries (specs_logger_test specs_logger)
+add_specs_c_lib(specs_logger_test specs_logger)
