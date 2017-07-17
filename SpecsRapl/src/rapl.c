@@ -1,8 +1,8 @@
-/*	Library for using RAPL based on code from:			*/
+/*	Library for using RAPL based on code from:						*/
 /*	http://web.eece.maine.edu/~vweaver/projects/rapl/rapl-read.c	*/
-/*									*/
-/*	Ricardo Nobre (rjfn@fe.up.pt)					*/
-/*	SPeCS LAB, FEUP, Portugal					*/
+/*																	*/
+/*	Ricardo Nobre (rjfn@fe.up.pt)									*/
+/*	SPeCS LAB, FEUP, Portugal										*/
 
 #include "rapl.h"
 #include <stdio.h>
@@ -27,8 +27,8 @@ static int perf_event_open(struct perf_event_attr *hw_event_uptr,
                         group_fd, flags);
 }
 
-#define MAX_CPUS        	1024
-#define MAX_PACKAGES    	16
+#define MAX_CPUS        		1024
+#define MAX_PACKAGES    		16
 #define NUM_RAPL_DOMAINS        4
 
 static int rapl_total_cores=0, rapl_total_packages=0;
@@ -109,7 +109,8 @@ static int rapl_detect_packages(void) {
         return 0;
 }
 
-	
+
+
 int rapl_monitor_start() {
 
         FILE *fff;
@@ -190,10 +191,7 @@ int rapl_monitor_start() {
 
                         if (rapl_fd[i][j]<0) {
 
-                                printf("TENHO ACESSO 1!\n");
-
                                 if (errno==EACCES) {
-					printf("TENHO ACESSO 2!\n");
                                         paranoid_value=check_paranoid();
                                         if (paranoid_value>0) {
                                                 printf("\t/proc/sys/kernel/perf_event_paranoid is %d\n",paranoid_value);
@@ -219,25 +217,17 @@ int rapl_monitor_start() {
 
 double rapl_monitor_report() {
 	int i, j;
-        long long value;
+    long long value;
 	double total_energy = 0;
 	int ret;
 
         for(j=0;j<rapl_total_packages;j++) {
-//                printf("\tPackage %d:\n",j);
-
                 for(i=0;i<NUM_RAPL_DOMAINS;i++) {
 
                         if (rapl_fd[i][j]!=-1) {
                                 ret = read(rapl_fd[i][j],&value,8);
 //                                close(rapl_fd[i][j]);
 
-/*
-                                printf("\t\t%s Energy Consumed: %lf %s\n",
-                                        rapl_domain_names[i],
-                                        (double)value*rapl_scale[i],
-                                        rapl_units[i]);
-*/
 				total_energy += (double)value*rapl_scale[i];	// in Joules
 
                         }
@@ -245,8 +235,5 @@ double rapl_monitor_report() {
                 }
 
         }
-        //printf("\n");
 	return total_energy;
 }
-
-
