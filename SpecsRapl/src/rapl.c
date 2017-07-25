@@ -221,6 +221,10 @@ double rapl_monitor_report() {
 	double total_energy = 0;
 	int ret;
 
+	// Summation of all the values over all domains
+	// Conceptually, the "core" domain should be inside the "package" domain, but in the 
+	// tested platforms, when there is a value for a domain such as "core", there is no
+	// value for the "package" domain
         for(j=0;j<rapl_total_packages;j++) {
                 for(i=0;i<NUM_RAPL_DOMAINS;i++) {
 
