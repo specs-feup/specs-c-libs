@@ -2,5 +2,7 @@ cmake_minimum_required(VERSION 2.8)
 project (SPECS_RAPL)
 
 add_library (specs_rapl src/rapl.c)
+add_executable (specs_rapl_exe src/rapl.c)
 	
 target_include_directories (specs_rapl PUBLIC include)
+target_include_directories (specs_rapl_exe PUBLIC include)

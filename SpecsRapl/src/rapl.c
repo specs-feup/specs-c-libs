@@ -241,3 +241,9 @@ double rapl_monitor_report() {
         }
 	return total_energy;
 }
+
+int main() {
+	rapl_monitor_start();	
+	double result = rapl_monitor_report();
+	printf("%f", result);
+}
