@@ -256,8 +256,9 @@ static void write_json_and_cleanup(const char *filename) {
     char *output = cJSON_Print(json_root);
     fprintf(f, "%s", output);
 
-    fclose(f);
+    free(output);
     cJSON_Delete(json_root);
+    fclose(f);
 }
 
 
