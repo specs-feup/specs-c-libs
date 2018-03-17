@@ -230,8 +230,8 @@ char rapl_domain_names[NUM_RAPL_DOMAINS][30]= {
 int detectionPerformed = 0;
 	
 
-	
-static int rapl_sysfs_start() {
+
+static int rapl_sysfs_monitor_start() {
 	
 	if(!detectionPerformed) {
 		detect_cpu();
@@ -304,7 +304,7 @@ static int rapl_sysfs_start() {
 }
 
 
-static double rapl_sysfs_measure() {
+static double 	rapl_sysfs_monitor_report() {
 	
 	int i,j;
 	double total = 0.0;
