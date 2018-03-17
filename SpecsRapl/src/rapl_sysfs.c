@@ -226,8 +226,19 @@ char rapl_domain_names[NUM_RAPL_DOMAINS][30]= {
 	int valid[MAX_PACKAGES][NUM_RAPL_DOMAINS];
 	FILE *fff;
 
+
+int detectionPerformed = 0;
+	
+
+	
 static int rapl_sysfs_start() {
 	
+	if(!detectionPerformed) {
+		detect_cpu();
+		detect_packages();	
+		
+		detectionPerformed = 1;
+	}
 	
 	int i,j;
 
@@ -332,6 +343,8 @@ static double rapl_sysfs_measure() {
 
 
 
+
+/*
 int main() {
 	int cpu_model;
 	
@@ -353,3 +366,4 @@ int main() {
 	return 0;
 
 }
+*/
