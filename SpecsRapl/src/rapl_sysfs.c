@@ -217,21 +217,21 @@ char rapl_domain_names[NUM_RAPL_DOMAINS][30]= {
 
 
 // Data that is shared between start/measure calls
-	char event_names[MAX_PACKAGES][NUM_RAPL_DOMAINS][256];
-	char filenames[MAX_PACKAGES][NUM_RAPL_DOMAINS][256];
-	char basename[MAX_PACKAGES][256];
-	char tempfile[256];
-	long long before[MAX_PACKAGES][NUM_RAPL_DOMAINS];
-	long long after[MAX_PACKAGES][NUM_RAPL_DOMAINS];
-	int valid[MAX_PACKAGES][NUM_RAPL_DOMAINS];
-	FILE *fff;
+static char event_names[MAX_PACKAGES][NUM_RAPL_DOMAINS][256];
+static char filenames[MAX_PACKAGES][NUM_RAPL_DOMAINS][256];
+static char basename[MAX_PACKAGES][256];
+static char tempfile[256];
+static long long before[MAX_PACKAGES][NUM_RAPL_DOMAINS];
+static long long after[MAX_PACKAGES][NUM_RAPL_DOMAINS];
+static int valid[MAX_PACKAGES][NUM_RAPL_DOMAINS];
+static FILE *fff;
 
 
-int detectionPerformed = 0;
+static int detectionPerformed = 0;
 	
 
 
-static int rapl_sysfs_monitor_start() {
+int rapl_sysfs_monitor_start() {
 	
 	if(!detectionPerformed) {
 		detect_cpu();
@@ -304,7 +304,7 @@ static int rapl_sysfs_monitor_start() {
 }
 
 
-static double 	rapl_sysfs_monitor_report() {
+ double rapl_sysfs_monitor_report() {
 	
 	int i,j;
 	double total = 0.0;
