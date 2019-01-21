@@ -44,14 +44,6 @@ int hasLooped_fs() {
 	return looped;
 }
 
-double rapl_fs_monitor_report() {
-	printf("'rapl_fs_monitor_report() NOT IMPLEMENTED!\n'");
-}
-
-int rapl_fs_monitor_start() {
-	printf("'rapl_fs_monitor_start() NOT IMPLEMENTED!\n'");
-}
-
 /**
  * Writes the field 'energy' with the energy value of the corresponding package.
  */

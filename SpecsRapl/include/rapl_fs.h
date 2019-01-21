@@ -18,10 +18,6 @@ struct RaplFsEnergy{
 	long long lap;
 };
 
-double rapl_fs_monitor_report();
-
-int rapl_fs_monitor_start();
-
 long long rapl_fs_energy();
 
 int hasLooped_fs();
