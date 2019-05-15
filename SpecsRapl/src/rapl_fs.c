@@ -40,14 +40,14 @@ pthread_t updateThread;
 pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 bool looped = false;
 
-int hasLooped_fs() {
+int rapl_fs_hasLooped() {
 	return looped;
 }
 
 /**
  * Writes the field 'energy' with the energy value of the corresponding package.
  */
-void readEnergy(struct RaplFsEnergy* energyMeasure) {
+static void rapl_fs_readEnergy(struct RaplFsEnergy* energyMeasure) {
 	for(int i=0; i<numberPackages; i++) {
 		char energyFilename[100];
 		snprintf(energyFilename, 100, "/sys/class/powercap/intel-rapl/intel-rapl:%d/energy_uj",i);		
@@ -73,7 +73,7 @@ void readEnergy(struct RaplFsEnergy* energyMeasure) {
 /**
  * Converts the given measure into a single value.
  */
-long long toEnergy(struct RaplFsEnergy* energyMeasure) {
+static long long rapl_fs_toEnergy(struct RaplFsEnergy* energyMeasure) {
 	long long totalEnergy = 0LL;
 	
 	for(int i=0; i<numberPackages; i++) {
@@ -88,13 +88,13 @@ long long toEnergy(struct RaplFsEnergy* energyMeasure) {
 }
 
 
-void update() {
+static void rapl_fs_update() {
 	// Read current energy
 	struct RaplFsEnergy* currentEnergies;
 	currentEnergies = malloc(numberPackages*sizeof(struct RaplFsEnergy));
 	
 	
-	readEnergy(currentEnergies);
+	rapl_fs_readEnergy(currentEnergies);
 
 
 	pthread_mutex_lock(&mutex);
@@ -123,21 +123,21 @@ void update() {
 	free(currentEnergies);
 }
 
-void* updateThreadFunction(void* arg) {
+static void* rapl_fs_updateThreadFunction(void* arg) {
 	while(1) {
 		sleep(sleepAmount);
 		if(DEBUG) {
 			printf("[SPECS_RAPL] Update thread is executing\n");
 		}
 		
-		update();
+		rapl_fs_update();
 	}
 }
 
 /**
  * Initializes needed values for the library 
  */
-void init() {
+static  void rapl_fs_init() {
 	//printf("INIT!\n");
 	
 	// Get number of packages
@@ -220,7 +220,7 @@ void init() {
 	// Initialize last measures
 	lastMeasures = malloc(numberPackages*sizeof(struct RaplFsEnergy));
 	// 'readEnergy' only updates the energy field, manually initialize the 'lap' field
-	readEnergy(lastMeasures);	
+	rapl_fs_readEnergy(lastMeasures);	
 	for(int i=0; i<numberPackages; i++) {
 		lastMeasures[i].lap = 0;
 	}
@@ -228,11 +228,11 @@ void init() {
 	// Finally, launch update thread
 	//printf("PThread: %ld\n", updateThread);	
 	if(updateThread != 0) {
-		printf("[SPECS_RAPL] WARNING: Update thread already initialized, init() has been called multiple times\n");
+		printf("[SPECS_RAPL] WARNING: Update thread already initialized, rapl_fs_init() has been called multiple times\n");
 		return;
 	}
 	
-	pthread_create(&updateThread, NULL, updateThreadFunction ,NULL);	
+	pthread_create(&updateThread, NULL, rapl_fs_updateThreadFunction ,NULL);	
 }
 
 long long rapl_fs_energy() {
@@ -240,12 +240,12 @@ long long rapl_fs_energy() {
 
 	if(firstTime) {
 		firstTime = false;
-		init();
+		rapl_fs_init();
 	}
 	
 	// Call update
-	update();
+	rapl_fs_update();
 	
 	// Convert last measure to a single value and return
-	return toEnergy(lastMeasures);
+	return rapl_fs_toEnergy(lastMeasures);
 }

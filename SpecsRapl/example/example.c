@@ -9,7 +9,7 @@ int main() {
 
         e0 = rapl_energy();
 
-		while(!hasLooped()) {
+		while(!rapl_hasLooped()) {
 			int iter = 2000;
 			long long acc = 0LL;
 			for(int i=0; i<iter; i++) {

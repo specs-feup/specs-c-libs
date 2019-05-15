@@ -11,7 +11,7 @@ int rapl_monitor_start();
 
 long long rapl_energy();
 
-int hasLooped();
+int rapl_hasLooped();
 
 #ifdef __cplusplus
 }

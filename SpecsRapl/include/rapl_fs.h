@@ -6,7 +6,7 @@
 #define SPECS_RAPL_POWER_W 200
 #endif
 
-#define DEBUG 1
+#define DEBUG 0
 
 #ifdef __cplusplus
 extern "C" {
@@ -20,7 +20,7 @@ struct RaplFsEnergy{
 
 long long rapl_fs_energy();
 
-int hasLooped_fs();
+int rapl_fs_hasLooped();
 
 #ifdef __cplusplus
 }

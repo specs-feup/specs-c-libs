@@ -19,6 +19,6 @@ long long rapl_energy() {
 }
 
 
-int hasLooped() {
-	return hasLooped_fs();
+int rapl_hasLooped() {
+	return rapl_fs_hasLooped();
 }
