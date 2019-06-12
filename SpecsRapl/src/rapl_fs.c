@@ -108,7 +108,9 @@ static void rapl_fs_update() {
 		// Otherwise, increase lap number
 		else {
 			currentEnergies[i].lap = lastMeasures[i].lap + 1;
-			printf("[SPECS_RAPL] Increase lap number for package %d, currently is %lld\n", i, currentEnergies[i].lap);
+			if(DEBUG) {
+				printf("[SPECS_RAPL] Increase lap number for package %d, currently is %lld\n", i, currentEnergies[i].lap);
+			}
 			looped = true;
 		}
 	}
