@@ -20,7 +20,7 @@ float data_get_average_gpu(edata_t data);
 float data_get_average_mem(edata_t data);
 
 #ifdef __cplusplus
-extern "C" {
+}
 #endif
 
 #endif
